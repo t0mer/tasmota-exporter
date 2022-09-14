@@ -26,6 +26,7 @@ Docker-Compose:
     - DEVICE_IP=<Tasmota IP>
     - USER=<user>
     - PASSWORD=<password>
+    - DEVICE_NAME=<Label for device>
 ```
 
 Prometheus Config:
@@ -44,8 +45,8 @@ Prometheus Config:
 Perform the following:
 
 ```
-git clone https://github.com/astr0n8t/tasmota-power-exporter.git
-cd tasmota-power-exporter
+git clone https://github.com/t0mer/tasmota-exporter.git
+cd tasmota-exporter
 pip install -r requirements.txt
 ```
 
