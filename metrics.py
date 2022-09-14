@@ -5,13 +5,12 @@ from os import getenv
 from time import sleep
 from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
 from prometheus_client import start_http_server
-
+from loguru import logger
 
 class TasmotaCollector(object):
     def __init__(self):
         self.ip = getenv('DEVICE_IP')
-        if not self.ip:
-            self.ip = "192.168.4.1"
+        self.device_name = getenv("DEVICE_NAME").lower()
         self.user = getenv('USER')
         self.password = getenv('PASSWORD')
 
@@ -20,7 +19,7 @@ class TasmotaCollector(object):
         response = self.fetch()
 
         for key in response:
-            metric_name = "tasmota_" + key.lower().replace(" ", "_") 
+            metric_name =  self.device_name +  "_" + key.lower().replace(" ", "_") 
             metric = response[key].split()[0]
             unit = None
             if len(response[key].split()) > 1:
@@ -36,17 +35,17 @@ class TasmotaCollector(object):
     def fetch(self):
 
         url = 'http://' + self.ip + '/?m=1'
-
+        logger.info("Getting Metrics from: " + url)
         session = requests.Session()
         
+
         if self.user and self.password:
             session.auth = (self.user, self.password)
 
         page = session.get(url)
 
         values = {}
-
-
+        
         string_values = str(page.text).split("{s}")
         for i in range(1,len(string_values)):
             label = string_values[i].split("{m}")[0]
@@ -62,9 +61,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 if __name__ == '__main__':
 
-    port = getenv('EXPORTER_PORT')
-    if not port:
-        port = 8000
+    port = 8000
 
     start_http_server(int(port))
     REGISTRY.register(TasmotaCollector())
