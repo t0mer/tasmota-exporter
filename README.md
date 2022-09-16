@@ -17,7 +17,7 @@ The GitHub actions pipeline automatically builds Docker images for ARM and x86 d
 Docker-Compose:
 ```
   tasmota:
-    image: ghcr.io/astr0n8t/tasmota-power-exporter:latest
+    image: techblog/tasmota-exporter:latest
     container_name: tasmota-power
     restart: always
     ports:
