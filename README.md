@@ -8,7 +8,7 @@ Allows you to collect metrics directly from individual smart plugs without the u
 
 Available in [grafana.json](./grafana.json)
 
-![grafana](./grafana.png)
+![grafana](https://raw.githubusercontent.com/t0mer/tasmota-exporter/main/grafana.png)
 
 ## Deployment
 
